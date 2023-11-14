@@ -9,29 +9,29 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 
-/**
- * Helper for mod_breadcrumbs
- *
- * @since  1.5
- */
-//class ModQuixHelper
-class QuixHelper
+
+class QuixHelper implements DatabaseAwareInterface
 {
+    use DatabaseAwareTrait;
+
     /**
      * renderShortCode
      *
-     * @param  \Joomla\Registry\Registry  &$params  module parameters
+     * @param   Registry         $params  The module parameters.
      *
-     * @return string
-     * @since 3.0.0
+     * @return  string
+     *
+     * @since   4.4.0
      */
-    public static function renderShortCode($params)
+    public function getRenderShortCode(Registry $params): string
     {
         $id = $params->get('id');
+
         if ( ! $id) {
             return '<p>'.Text::_('MOD_QUIX_INVALID_ID').'</p >';
         }
@@ -47,5 +47,23 @@ class QuixHelper
 
         return $collection;
     }
+    /**
+     * Get a list of related data
+     *
+     * @param   Registry  &$params  module parameters
+     *
+     * @return  string
+     *
+     * @since   1.6
+     *
+     * @deprecated  4.4.0  will be removed in 6.0
+     *              Use the non-static method getRenderShortCode
+     */
+    public static function getList(&$params)
+    {
+
+        return (new self())->getRenderShortCode($params);
+    }
+
 
 }

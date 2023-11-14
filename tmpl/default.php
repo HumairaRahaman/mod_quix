@@ -8,8 +8,15 @@
  */
 
 // No direct access.
+use Joomla\CMS\Helper\ModuleHelper;
+
 defined('_JEXEC') or die;
+
+if (!$list) {
+    return;
+}
 ?>
-<div class="mod-quix-library<?php echo $moduleclass_sfx; ?>">
-    <?php echo is_object($item) ? $item->text : $item; ?>
+
+<div class="mod-quix-library<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
+    <?php require ModuleHelper::getLayoutPath('mod_quix', $params->get('layout', 'default') );?>
 </div>
